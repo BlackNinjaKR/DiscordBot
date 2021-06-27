@@ -1,0 +1,49 @@
+const Discord = require('discord.js');
+
+const client = new Discord.Client();
+
+const prefix = '-'
+
+client.once('ready', () => {
+    console.log ('Bot is up and running! But still under development');
+});
+
+
+client.on('message', message =>{
+    if (!message.content.startsWith(prefix) || message.author.bot) return;
+
+    const args = message.content.slice(prefix.length).split(/ +/);
+    const command = args.shift().toLowerCase();
+
+    if (command === 'ping'){
+        message.channel.send('Pong!');
+    } else if (command == 'youtube'){
+        message.channel.send('This is link for BlackNinjaKR`s channel: https://www.youtube.com/channel/UC8r66JpNbQCoPU5R0oi0rAg');
+    } else if (command == 'twitch' ){
+        message.channel.send ('This is link for BlackNinjaKR`s Stream: https://www.twitch.tv/blackninjakr');
+    } else if (command == 'twitter'){
+        message.channel.send('This is link for BlackNinjaKR`s account: https://twitter.com/BlackNinjaKR1');
+    } else if (command == 'help'){
+        message.channel.send('```Prefix: "-" \n Help - This menu \n Ping: ping the bot \n Youtube: Get the Youtube link \n Twitch: Get the channel link \n Twitter: Get the account address \n Avatar: Shows your current avatar```');
+    } else if (command == 'avatar'){
+        message.reply(message.author.displayAvatarURL());
+    } else if (command == 'hi'){
+        message.channel.send('Hi!')
+    } else if (command == 'hello'){
+        message.channel.send('Hello there!')
+    } else if (command == 'heya'){
+        message.channel.send('Sup!')
+    } else if (command == 'bye'){
+        message.channel.send('Bye Bye!')
+    } else if (command == 'bai'){
+        message.channel.send('Bai bai!')
+    } else if (command == 'yt'){
+        message.channel.send('This is link for BlackNinjaKR`s channel: https://www.youtube.com/channel/UC8r66JpNbQCoPU5R0oi0rAg')
+    }  else {
+        message.reply('No such command is there in the database')
+    }
+})
+  
+
+
+client.login('ODU3ODkzNTQ3NDY5NzAxMTMx.YNWNoA.cSa10G2aSNln1JtVHTfhwFdG-pk');
