@@ -1,8 +1,19 @@
 const Discord = require('discord.js');
 
-const client = new Discord.Client();
+const client = new Discord.Client({partials: ["MESSAGE", "CHANNEL", "REACTION"]});
 
 const prefix = '-'
+
+const fs = require('fs');
+
+client.commands = new Discord.Collection();
+
+const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
+for (const file of commandFiles){
+    const command = require (`./commands/${file}`);
+
+    client.commands.set(command.name, command);
+}
 
 client.once('ready', () => {
     console.log ('Bot is up and running! But still under development');
@@ -24,7 +35,7 @@ client.on('message', message =>{
     } else if (command == 'twitter'){
         message.channel.send('This is link for BlackNinjaKR`s account: https://twitter.com/BlackNinjaKR1');
     } else if (command == 'help'){
-        message.channel.send('```Prefix: "-" \n Help - This menu \n Ping: ping the bot \n Youtube: Get the Youtube link \n Twitch: Get the channel link \n Twitter: Get the account address \n Avatar: Shows your current avatar```');
+        message.channel.send('```Prefix: "-" \n Help: This menu \n Ping: ping the bot \n Youtube: Get the Youtube link \n Twitch: Get the channel link \n Twitter: Get the account address \n Avatar: Shows your current avatar \n \n **FOR SERVER ADMINS AND MODS** \n\n Clear: Clears off a bunch of messages\n Mute <number+abbrev>: Mutes a member (for a set amount of time if specified)\n Unmute: Unmutes a member\n Kick: Kicks out a member\n Ban: Bans a member```');
     } else if (command == 'avatar'){
         message.reply(message.author.displayAvatarURL());
     } else if (command == 'hi'){
@@ -39,11 +50,25 @@ client.on('message', message =>{
         message.channel.send('Bai bai!')
     } else if (command == 'yt'){
         message.channel.send('This is link for BlackNinjaKR`s channel: https://www.youtube.com/channel/UC8r66JpNbQCoPU5R0oi0rAg')
-    }  else {
-        message.reply('No such command is there in the database')
+    } else if (command == 'clear'){
+        client.commands.get('clear').execute(message, args);
+    } else if (command == 'mute'){
+        client.commands.get('mute').execute(message, args);
+    } else if (command == 'unmute'){
+        client.commands.get('unmute').execute(message, args);
+    } else if (command == 'colorrole'){
+        client.commands.get('colorrole').execute(message, args, Discord, client);
+    } else if (command === 'vreactrole'){
+        client.commands.get('vreactrole').execute(message, args, Discord, client);
+    } else if (command === 'pronounrole'){
+        client.commands.get('pronounrole').execute(message, args, Discord, client);
+    } else if (command === 'userrole'){
+        client.commands.get('userrole').execute(message, args, Discord, client);
+    } else if (command === 'kick'){
+        client.commands.get('kick').execute(message, args);
+    } else if (command === 'ban'){
+        client.commands.get('ban').execute(message, args);
     }
 })
-  
-
 
 client.login('ODU3ODkzNTQ3NDY5NzAxMTMx.YNWNoA.cSa10G2aSNln1JtVHTfhwFdG-pk');
